@@ -3,6 +3,7 @@ body{
     justify-content: center;
     font-weight: 600;
     font-size: 1.6em;
+    margin: 40px;
 }
 #board{
     display: flex;
@@ -10,8 +11,10 @@ body{
     height: 630px;
     width: 720px;
     background-color: #4a752c;
-    align-content: flex-end
-   
+    align-content: flex-end;
+    margin: 0;
+    padding: 0;
+    position: relative;
 }
 
 .square{
@@ -38,4 +41,80 @@ body{
     margin-left: -7px;
     position: absolute;
     pointer-events: none;
+}
+
+.cont{
+    display: flex;
+    width: 100%;
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+}
+#flag{
+    transform: scale(1.5) translatex(-10px);
+
+}
+#flagNum{
+    width: 50px;
+    text-align: center;
+   
+    padding-top: 5px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+}
+#gameOver{
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+#popup{
+    display: flex;
+    position: absolute;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+   
+    width: 45%;
+    left: 50%;
+    top: 25%;
+    transform: translatex(-50%);
+    z-index: 10;
+    
+}
+.score{
+    display: flex;
+    background-color: #4a752c;
+    width: 100%;
+    height: 200px;
+    border-radius: 20px;
+}
+#popup button{
+    
+    background-color: #4a752c;
+    height: 55px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 20px;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    
+}
+#timer{
+    width: 50px;
+    padding-top: 5px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+}
+.timer{
+    margin-left: 30px;
+    margin-right: 10px;
+    text-align: center;
+    padding-top: 5px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
 }

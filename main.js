@@ -5,6 +5,9 @@ let myArr = [];
 let randomNumbers = [];
 let zeroArr = []
 let firstclick = true;
+let time = 0;
+let tilesRemain = 0;
+let mytimer = (yn) => { yn == true ? timer = setInterval(startTimer, 1000) : clearInterval(timer)}
 let loadGame = () => {
     myArr = [];
     randomNumbers = [];
@@ -15,7 +18,7 @@ let loadGame = () => {
     for(i=0; i<height; i++){
         myArr.push(emptyArr());
     }
-    board.innerHTML = createBoard();
+    board.innerHTML += createBoard();
     rightClick()
 }
 
@@ -23,6 +26,7 @@ function medDiff(){
     width = 18;
     height = 14;
     bombs = 40;
+    tilesRemain = (width*height)-bombs;
 }
 
 function createBoard(){
@@ -43,6 +47,7 @@ function createBoard(){
 function getNum(myNum){
     if(firstclick == true){
         randomNums(myNum);
+        mytimer(true)
         firstclick = false;
     }
     z = convert(myNum)
@@ -50,7 +55,10 @@ function getNum(myNum){
     b = z[1];
     if(document.getElementById(`s${myNum}`).innerHTML == ''){
         document.getElementById(`s${myNum}`).innerHTML = myArr[a][b] == 1 ? '&#9679' : numCalc(a, b)
-    
+        myArr[a][b] == 1 ? gameOver() : tilesRemain--
+        if(tilesRemain == 0){
+            gameOver(true)
+        }
     if(document.getElementById(`s${myNum}`).innerHTML == 0){
         clearzero(myNum)
     }
@@ -118,6 +126,12 @@ function clearzero(x){
                if(v == 0 && `${(aa+ii)},${(bb+ff)}` != String(z) && document.getElementById(`s${((aa+ii)*width)+(bb+ff)}`).innerHTML == ''){
                 zeroArr.push([aa+ii, bb+ff])
                }
+               if(document.getElementById(`s${((aa+ii)*width)+(bb+ff)}`).innerHTML == ''){
+                tilesRemain--
+                if(tilesRemain==0){
+                    gameOver(true)
+                }
+               }
                v == 0 ? document.getElementById(`s${((aa+ii)*width)+(bb+ff)}`).innerHTML = ' ' : document.getElementById(`s${((aa+ii)*width)+(bb+ff)}`).innerHTML = v
                backgroundColor(((aa+ii)*width)+(bb+ff))
                 colorNum(v, ((aa+ii)*width)+(bb+ff))            
@@ -126,6 +140,7 @@ function clearzero(x){
     if(zeroArr.length>0){
         let te = (zeroArr[0][0]*width)+zeroArr[0][1]
         zeroArr.splice(0, 1)
+      
         clearzero(te)
     }
 }
@@ -142,19 +157,38 @@ function colorNum(v, id){
 
 function rightClick(){
     let flag = `<div class='flag'><div class='t'></div><div class='r'></div></div>`
+    let flagNum = bombs;
     for(i=0;i<width*height;i++){
         document.getElementById(`s${i}`).addEventListener('mouseup', (e) => {
             if(e.button == 2 && document.getElementById(e.toElement.id).innerHTML == ''){
-                document.getElementById(e.toElement.id).innerHTML = flag}
+                document.getElementById(e.toElement.id).innerHTML = flag
+                flagNum--
+                document.getElementById('flagNum').innerHTML = flagNum
+            }
                 
             else if(e.button == 2 &&  e.target.children.length == 1){
-                    document.getElementById(e.toElement.id).innerHTML = ''}
+                    document.getElementById(e.toElement.id).innerHTML = ''
+                    flagNum++
+                    document.getElementById('flagNum').innerHTML = flagNum
+                }
         })
         document.getElementById(`s${i}`).addEventListener('contextmenu', (e) => {
             e.preventDefault()
         })
 
     }
+}
+
+function gameOver(w){
+    mytimer(false)
+    w == true ? document.getElementById('popupText').innerHTML = 'gj' + time : document.getElementById('popupText').innerHTML = 'fail'
+    document.getElementById('gameOver').style.display = 'block'
+    
+}
+
+function startTimer(){
+    time++
+    document.getElementById('timer').innerHTML = time;
 }
 /* 
 a = (num/width) round down for array num 
