@@ -7,10 +7,6 @@ let zeroArr = []
 let firstclick = true;
 let time = 0;
 let tilesRemain = 0;
-const fs = require("fs");
-const scores = {
-    highScore: 0
-}
 let mytimer = (yn) => { yn == true ? timer = setInterval(startTimer, 1000) : clearInterval(timer)}
 let loadGame = () => {
     myArr = [];
@@ -188,11 +184,7 @@ function rightClick(){
 
 function gameOver(w){
     mytimer(false)
-   if (w == true){document.getElementById('popupText').innerHTML = 'Stage Complete! <br><br><br> Score: ' + time}
-   else{ document.getElementById('popupText').innerHTML = 'Game Over!';
-   const userJSON = JSON.stringify(scores);
-   fs.writeFile('scores.json', userJSON);
-}
+    w == true ? document.getElementById('popupText').innerHTML = 'Stage Complete! <br><br><br> Score: ' + time : document.getElementById('popupText').innerHTML = 'Game Over!'
     document.getElementById('gameOver').style.display = 'block'
     
 }
