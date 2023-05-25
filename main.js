@@ -7,6 +7,10 @@ let zeroArr = []
 let firstclick = true;
 let time = 0;
 let tilesRemain = 0;
+const fs = require("fs");
+const scores = {
+    highScore: 0
+}
 let mytimer = (yn) => { yn == true ? timer = setInterval(startTimer, 1000) : clearInterval(timer)}
 let loadGame = () => {
     myArr = [];
@@ -37,7 +41,7 @@ function createBoard(){
         if((i)%width != 0){
             color == '#aad751' ? color = '#a2d149' : color = '#aad751'
         }
-        x+= `<div class="square" id="s${i}"style="width:${(720/ width)}px; height:${(720/ width)}px; background-color:${color}; "onclick='getNum(${i})'></div>`
+        x+= `<div class="square" id="s${i}"style="width:${(720/ width)}px; height:${(720/ width)}px; background-color:${color}; "'></div>`
         
     }
     return(x)
@@ -171,6 +175,9 @@ function rightClick(){
                     flagNum++
                     document.getElementById('flagNum').innerHTML = flagNum
                 }
+            else if(e.button == 0){ 
+                getNum(Number(e.target.id.slice(1))) 
+            }
         })
         document.getElementById(`s${i}`).addEventListener('contextmenu', (e) => {
             e.preventDefault()
@@ -181,7 +188,11 @@ function rightClick(){
 
 function gameOver(w){
     mytimer(false)
-    w == true ? document.getElementById('popupText').innerHTML = 'gj' + time : document.getElementById('popupText').innerHTML = 'fail'
+   if (w == true){document.getElementById('popupText').innerHTML = 'Stage Complete! <br><br><br> Score: ' + time}
+   else{ document.getElementById('popupText').innerHTML = 'Game Over!';
+   const userJSON = JSON.stringify(scores);
+   fs.writeFile('scores.json', userJSON);
+}
     document.getElementById('gameOver').style.display = 'block'
     
 }
