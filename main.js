@@ -7,15 +7,10 @@ let zeroArr = []
 let firstclick = true;
 let time = 0;
 let tilesRemain = 0;
-const fs = require('fs');
+
 let mytimer = (yn) => { yn == true ? timer = setInterval(startTimer, 1000) : clearInterval(timer)}
 let loadGame = () => {
-    fs.readFile('test.txt', 'utf8', (err, data) => {
-        if(err){console.error(err)
-        return;}
-        console.log(data);
-    })
-    scorejs.tev();
+
     myArr = [];
     randomNumbers = [];
     zeroArr = []
